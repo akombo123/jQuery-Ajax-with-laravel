@@ -1,11 +1,24 @@
 <?php
 
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\CAtegoryController;
 use Illuminate\Support\Facades\Route;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+Route::get('/', function () {
+    return view('welcome');
+});
+
+Route::get('/',[AuthController::class,'login']);
+Route::post('login',[AuthController::class,'AuthLogin']);
+Route::get('logout',[AuthController::class,'logout']);
+
+
+Route::group(['middleware' => 'admin'],function(){
+
+    Route::get('admin/dashboard', function () {
+        return view('admin.dashboard');
+    });
+});
 
 Route::get('/categories/index',[CAtegoryController::class,'index'])->name('categories.index');
 Route::get('/categories/create',[CAtegoryController::class,'create'])->name('categories.create');
